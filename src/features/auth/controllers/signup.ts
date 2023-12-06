@@ -18,7 +18,7 @@ import { config } from '@root/config';
 
 const userCache: UserCache = new UserCache();
 
-export class Signup {
+export class SignUp {
   @joiValidation(signupSchema)
   public async create(req: Request, res: Response): Promise<void> {
     const { username, password, email, avatarColor, avatarImage } = req.body;
@@ -31,7 +31,7 @@ export class Signup {
     const authObjectId: ObjectId = new ObjectId();
     const userObjectId: ObjectId = new ObjectId();
     const uId = `${Helpers.generateRandomIntegers(12)}`;
-    const authData: IAuthDocument = Signup.prototype.signupData({
+    const authData: IAuthDocument = SignUp.prototype.signupData({
       _id: authObjectId,
       uId,
       username,
@@ -51,7 +51,7 @@ export class Signup {
     }
 
     // Add a redis cache
-    const userDataForCache: IUserDocument = Signup.prototype.userData(
+    const userDataForCache: IUserDocument = SignUp.prototype.userData(
       authData,
       userObjectId,
     );
@@ -69,7 +69,7 @@ export class Signup {
     authQueue.addAuthUserJob('addAuthUserToDB', { value: authData });
     userQueue.addUserJob('addUserToDB', { value: userDataForCache });
 
-    const userJwt: string = Signup.prototype.signToken(authData, userObjectId);
+    const userJwt: string = SignUp.prototype.signToken(authData, userObjectId);
     req.session = { jwt: userJwt };
 
     res.status(HTTP_STATUS.CREATED).json({

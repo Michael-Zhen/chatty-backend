@@ -24,8 +24,9 @@ withCredentials: true
 
 {
   "username": "aaabtj",
-  "password": "12345g6"
+  "password": "12345678"
 }
+
 ###
 GET  {{baseUrl}}/{{urlPath}}/signout
 Content-Type: application/json
@@ -37,4 +38,25 @@ GET  {{baseUrl}}/{{urlPath}}/currentuser
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
+
+###
+POST {{baseUrl}}/{{urlPath}}/forgot-password
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "email": "df153uh74g@sgfsd.com"
+}
+
+###
+POST {{baseUrl}}/{{urlPath}}/reset-password/15d1deff36b36c7eb0a094f80c17e8661a271951
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "password": "12345678",
+  "confirmPassword": "12345678"
+}
 

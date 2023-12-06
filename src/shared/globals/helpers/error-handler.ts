@@ -2,19 +2,19 @@ import HTTP_STATUS from 'http-status-codes';
 
 export interface IErrorResponse {
   message: string;
-  statuscode: number;
+  statusCode: number;
   status: string;
   serializeErrors(): IError;
 }
 
 export interface IError {
   message: string;
-  statuscode: number;
+  statusCode: number;
   status: string;
 }
 
 export abstract class CustomError extends Error {
-  abstract statuscode: number;
+  abstract statusCode: number;
   abstract status: string;
 
   constructor(message: string) {
@@ -25,13 +25,13 @@ export abstract class CustomError extends Error {
     return {
       message: this.message,
       status: this.status,
-      statuscode: this.statuscode,
+      statusCode: this.statusCode,
     };
   }
 }
 
 export class JoiRequestValidationError extends CustomError {
-  statuscode = HTTP_STATUS.BAD_REQUEST;
+  statusCode = HTTP_STATUS.BAD_REQUEST;
   status = 'error';
 
   constructor(message: string) {
@@ -40,7 +40,7 @@ export class JoiRequestValidationError extends CustomError {
 }
 
 export class BadRequestError extends CustomError {
-  statuscode = HTTP_STATUS.BAD_REQUEST;
+  statusCode = HTTP_STATUS.BAD_REQUEST;
   status = 'error';
 
   constructor(message: string) {
@@ -49,7 +49,7 @@ export class BadRequestError extends CustomError {
 }
 
 export class NotFoundError extends CustomError {
-  statuscode = HTTP_STATUS.NOT_FOUND;
+  statusCode = HTTP_STATUS.NOT_FOUND;
   status = 'error';
 
   constructor(message: string) {
@@ -58,7 +58,7 @@ export class NotFoundError extends CustomError {
 }
 
 export class NotAuthorizedError extends CustomError {
-  statuscode = HTTP_STATUS.UNAUTHORIZED;
+  statusCode = HTTP_STATUS.UNAUTHORIZED;
   status = 'error';
 
   constructor(message: string) {
@@ -67,7 +67,7 @@ export class NotAuthorizedError extends CustomError {
 }
 
 export class FileTooLargeError extends CustomError {
-  statuscode = HTTP_STATUS.REQUEST_TOO_LONG;
+  statusCode = HTTP_STATUS.REQUEST_TOO_LONG;
   status = 'error';
 
   constructor(message: string) {
@@ -76,7 +76,7 @@ export class FileTooLargeError extends CustomError {
 }
 
 export class ServerError extends CustomError {
-  statuscode = HTTP_STATUS.SERVICE_UNAVAILABLE;
+  statusCode = HTTP_STATUS.SERVICE_UNAVAILABLE;
   status = 'error';
 
   constructor(message: string) {

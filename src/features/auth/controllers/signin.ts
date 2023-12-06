@@ -10,7 +10,7 @@ import { BadRequestError } from '@global/helpers/error-handler';
 import { userService } from '@service/db/user.service';
 import { IUserDocument } from '@user/interfaces/user.interface';
 
-export class Signin {
+export class SignIn {
   @joiValidation(loginSchema)
   public async read(req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
