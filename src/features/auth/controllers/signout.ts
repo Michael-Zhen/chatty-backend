@@ -1,7 +1,7 @@
 import HTTP_STATUS from 'http-status-codes';
 import { Request, Response } from 'express';
 
-export class Singout {
+export class SignOut {
   public async update(req: Request, res: Response): Promise<void> {
     req.session = null;
     res

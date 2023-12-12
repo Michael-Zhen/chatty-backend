@@ -80,12 +80,12 @@ export class UserCache extends BaseCache {
       if (!this.client.isOpen) {
         await this.client.connect();
       }
-      await this.client.ZADD('user', {
+      await this.client.zAdd('user', {
         score: parseInt(userUId, 10),
         value: `${key}`,
       });
       for (const [itemKey, itemValue] of Object.entries(dataToSave)) {
-        await this.client.HSET(`users:${key}`, `${itemKey}`, `${itemValue}`);
+        await this.client.hSet(`users:${key}`, `${itemKey}`, `${itemValue}`);
       }
     } catch (error) {
       log.error(error);
@@ -99,7 +99,7 @@ export class UserCache extends BaseCache {
         await this.client.connect();
       }
 
-      const response: IUserDocument = (await this.client.HGETALL(
+      const response: IUserDocument = (await this.client.hGetAll(
         `users:${userId}`,
       )) as unknown as IUserDocument;
       response.createdAt = new Date(Helpers.parseJson(`${response.createdAt}`));
@@ -134,13 +134,13 @@ export class UserCache extends BaseCache {
       if (!this.client.isOpen) {
         await this.client.connect();
       }
-      const response: string[] = await this.client.ZRANGE('user', start, end, {
+      const response: string[] = await this.client.zRange('user', start, end, {
         REV: true,
       });
       const multi: ReturnType<typeof this.client.multi> = this.client.multi();
       for (const key of response) {
         if (key !== excludedUserKey) {
-          multi.HGETALL(`users:${key}`);
+          multi.hGetAll(`users:${key}`);
         }
       }
       const replies: UserCacheMultiType =
@@ -181,17 +181,17 @@ export class UserCache extends BaseCache {
         await this.client.connect();
       }
       const replies: IUserDocument[] = [];
-      const followers: string[] = await this.client.LRANGE(
+      const followers: string[] = await this.client.lRange(
         `followers:${userId}`,
         0,
         -1,
       );
-      const users: string[] = await this.client.ZRANGE('user', 0, -1);
+      const users: string[] = await this.client.zRange('user', 0, -1);
       // const randomUsers: string[] = Helpers.shuffle(users).slice(0, 10);
       // for (const key of randomUsers) {
       //   const followerIndex = indexOf(followers, key);
       //   if (followerIndex < 0) {
-      //     const userHash: IUserDocument = (await this.client.HGETALL(
+      //     const userHash: IUserDocument = (await this.client.hGetAll(
       //       `users:${key}`,
       //     )) as unknown as IUserDocument;
       //     replies.push(userHash);
@@ -235,7 +235,7 @@ export class UserCache extends BaseCache {
       if (!this.client.isOpen) {
         await this.client.connect();
       }
-      await this.client.HSET(
+      await this.client.hSet(
         `users:${userId}`,
         `${prop}`,
         JSON.stringify(value),
@@ -255,7 +255,7 @@ export class UserCache extends BaseCache {
       if (!this.client.isOpen) {
         await this.client.connect();
       }
-      const count: number = await this.client.ZCARD('user');
+      const count: number = await this.client.zCard('user');
       return count;
     } catch (error) {
       log.error(error);
