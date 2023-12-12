@@ -21,6 +21,7 @@ import 'express-async-errors';
 import { config } from '@root/config';
 import applicationRoutes from '@root/routes';
 import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
+import { SocketIOPostHandler } from '@socket/post';
 
 const SERVER_PORT = 5000;
 const log: Logger = config.createLogger('server');
@@ -87,7 +88,7 @@ export class ChattyServer {
       ) => {
         log.error(error);
         if (error instanceof CustomError) {
-          return res.status(error.statuscode).json(error.serializeErrors);
+          return res.status(error.statusCode).json(error.serializeErrors);
         }
         next();
       },
@@ -127,6 +128,8 @@ export class ChattyServer {
   }
 
   private socketIOConnections(io: Server): void {
-    log.info('socketIOConnections');
+    const postSocketHandler: SocketIOPostHandler = new SocketIOPostHandler(io);
+
+    postSocketHandler.listen();
   }
 }
