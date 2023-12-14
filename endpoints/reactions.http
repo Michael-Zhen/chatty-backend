@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:5000
+@urlPath = api/v1
+
+###
+POST {{baseUrl}}/{{urlPath}}/post/reaction
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "userTo": "6572445801bf9cf83b79c5de",
+  "postId": "657b75d9ca7417b22e658c30",
+  "type": "happy",
+  "previousReaction": "",
+  "postReactions": {"like":0,"love":0,"happy":1,"sad":0,"wow":0,"angry":0},
+  "profilePicture": "https://res.cloudinary.com/dfylvpgmm/image/upload/v1700858832/65610bd062237f916cefe18d"
+}
+
+###
+DELETE  {{baseUrl}}/{{urlPath}}/post/reaction/657a27ddb93c7f2ff94833c9/sad/{"like":0,"love":0,"happy":0,"sad":0,"wow":0,"angry":0}
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+}
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/reactions/657b75d9ca7417b22e658c30
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/single/reaction/username/Aaabtj/657b75d9ca7417b22e658c30
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/reaction/username/Aaabtj
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
